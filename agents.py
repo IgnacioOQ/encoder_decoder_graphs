@@ -26,20 +26,15 @@ class UrnAgent:
         # Urns
         if not initialize_urns:
           self.signalling_urns = {}
-          self.action_urns = {}
         else:
           self.signalling_urns = create_initial_signals(n_observed_features=n_observed_features,
                                                         n_signals=n_signaling_actions,n=100,m=0)
-          self.action_urns = {}
-        # Urns History: stored in simulation
-        # self.signalling_urns_history = []
-        # self.action_urns_history = []
+        self.action_urns = {}
 
     def reset_urns(self):
         self.signalling_urns = {}
         self.action_urns = {}
         self.signalling_urns_history = []
-        # self.action_urns_history = []
 
     def get_action(self, state, is_signaling=True):
         """
@@ -47,7 +42,6 @@ class UrnAgent:
         :param is_signaling: If True, choose a signaling action; otherwise, choose a final action
         :return: Chosen action (int)
         """
-        #q_table = self.q_table_signaling if is_signaling else self.q_table_action
         n_actions = self.n_signaling_actions if is_signaling else self.n_final_actions
 
         if is_signaling:
@@ -65,8 +59,7 @@ class UrnAgent:
         else:
           probability_weights = self.action_urns[state] / np.sum(self.action_urns[state])
           return np.random.choice(np.arange(len(probability_weights)), p=probability_weights)
-
-
+            
     def update_urns(self, state, action, reward, is_signaling=True):
 
         n_actions = self.n_signaling_actions if is_signaling else self.n_final_actions
@@ -97,7 +90,8 @@ class UrnAgent:
 # Q-Learning Agent
 class QLearningAgent:
     def __init__(self, n_signaling_actions, n_final_actions, learning_rate=0.1,
-                 discount_factor=0.99, exploration_rate=1.0, exploration_decay=0.995, min_exploration_rate=0.01):
+                 discount_factor=0.99, exploration_rate=1.0, exploration_decay=0.995, min_exploration_rate=0.01,
+                initialize_urns = False):
         """
         Initialize a Q-learning agent for signaling and final actions.
 
@@ -118,7 +112,11 @@ class QLearningAgent:
         self.min_exploration_rate = min_exploration_rate
 
         # Q-tables for signaling and final actions
-        self.q_table_signaling = {}
+        if not initialize_urns:
+          self.q_table_signaling = {}
+        else:
+          self.q_table_signaling = create_initial_signals(n_observed_features=n_observed_features,
+                                                        n_signals=n_signaling_actions,n=100,m=0)
         self.q_table_action = {}
 
     def get_action(self, state, is_signaling=True):
