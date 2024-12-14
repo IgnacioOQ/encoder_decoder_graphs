@@ -116,3 +116,16 @@ def create_initial_signals(n_observed_features, n_signals,n=1,m=0):
         signalling_urns[o] = vector
 
     return signalling_urns
+
+
+def create_observational_partitions(n_agents,n_features):
+    agents_observed_variables = {}
+    for i in range(n_agents):
+      # Randomly determine the number of indexes to select (between 1 and n)
+      num_indexes = random.randint(1, n_features)
+      # Randomly sample indexes from the range [0, n-1]
+      random_indexes = random.sample(range(n_features), num_indexes)
+      # Subset the vector using the selected indexes
+      #subset = [vector[i] for i in random_indexes]
+      agents_observed_variables[i] = random_indexes
+    return agents_observed_variables
