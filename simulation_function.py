@@ -9,11 +9,11 @@ def simulation_function_with_initialization(n_agents=n_agents, n_features=n_feat
     agents = [agent_class(n_signaling_actions, n_final_actions,
                        initialize_urns=initialize_urns) for _ in range(n_agents)]
 
-    # History of the information status of the agent after each episode
-    # namely their signalling and action urns as they get more complex
-    urn_histories = {}
-    for i, agent in enumerate(agents):
-      urn_histories[i] = {'signal_urns_history':[],'action_urns_history':[]}
+    # # History of the information status of the agent after each episode
+    # # namely their signalling and action urns as they get more complex
+    # urn_histories = {}
+    # for i, agent in enumerate(agents):
+    #   urn_histories[i] = {'signal_urns_history':[],'action_urns_history':[]}
 
     for episode in range(n_episodes):
         if verbose:
@@ -72,9 +72,9 @@ def simulation_function_with_initialization(n_agents=n_agents, n_features=n_feat
         # copy.deepcopy() is a function in Python's copy module that creates a deep copy of an object.
         # A deep copy means that the new object is a completely independent copy of the original,
         # including any nested objects it contains.
-        for i, agent in enumerate(agents):
-          urn_histories[i]['signal_urns_history'].append(copy.deepcopy(agent.signalling_urns))
-          urn_histories[i]['action_urns_history'].append(copy.deepcopy(agent.action_urns))
+        # for i, agent in enumerate(agents):
+        #   urn_histories[i]['signal_urns_history'].append(copy.deepcopy(agent.signalling_urns))
+        #   urn_histories[i]['action_urns_history'].append(copy.deepcopy(agent.action_urns))
 
         for agent in agents:
             agent.decay_exploration()
@@ -129,4 +129,4 @@ def simulation_function_with_initialization(n_agents=n_agents, n_features=n_feat
       plt.tight_layout()
       plt.show()
 
-    return signal_usage, rewards_history, signal_information_history, urn_histories
+    return signal_usage, rewards_history, signal_information_history#, urn_histories
