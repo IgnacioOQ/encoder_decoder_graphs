@@ -91,7 +91,7 @@ class UrnAgent:
 class QLearningAgent:
     def __init__(self, n_signaling_actions, n_final_actions, learning_rate=0.1,
                  discount_factor=0.99, exploration_rate=1.0, exploration_decay=0.995, min_exploration_rate=0.01,
-                initialize_urns = False):
+                 n_observed_features = 2, initialize_urns = False):
         """
         Initialize a Q-learning agent for signaling and final actions.
 
